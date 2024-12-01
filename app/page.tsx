@@ -18,6 +18,14 @@ interface Message {
   isTyping?: boolean;
 }
 
+/**
+ * The component renders a chat interface that allows users to send messages
+ * and receive responses from an assistant. It maintains the state of messages, input,
+ * and typing status using React hooks.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered chat interface.
+ */
 export default function Home() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -42,13 +50,13 @@ export default function Home() {
             acc +
             `${
               message.user === "user"
-                ? "question: " + message.text
-                : "answer: " + message.text
+                ? "User Query: " + message.text
+                : "Assistant Response: " + message.text
             }` +
             "\n\n",
           ""
         );
-
+        console.log(allMessages);
         const response = await fetch("/api/chat", {
           body: JSON.stringify({ message: allMessages }),
           method: "POST",
