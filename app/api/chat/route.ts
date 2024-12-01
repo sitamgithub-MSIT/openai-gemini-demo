@@ -1,11 +1,16 @@
 import { NextResponse } from "next/server";
+import * as weave from "weave";
 import OpenAI from "openai";
+
+// Initialize Weave with the project name.
+weave.init("openai-gemini-demo");
 
 // Create a new OpenAI instance with the API key and base URL.
 const openai = new OpenAI({
   apiKey: process.env.GEMINI_API_KEY as string,
   baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/",
 });
+const oaiClient = weave.wrapOpenAI(openai);
 
 // System prompt to provide context for the AI model.
 const SYSTEM_PROMPT = `You are an intelligent and helpful AI assistant. When responding:
@@ -38,7 +43,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const response = await openai.chat.completions.create({
+    const response = await oaiClient.chat.completions.create({
       model: "gemini-1.5-flash",
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
