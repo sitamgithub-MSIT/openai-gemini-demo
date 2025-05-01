@@ -44,7 +44,7 @@ export async function POST(req: Request) {
 
   try {
     const response = await oaiClient.chat.completions.create({
-      model: "gemini-1.5-flash",
+      model: "gemini-2.0-flash",
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
         { role: "user", content: message },
